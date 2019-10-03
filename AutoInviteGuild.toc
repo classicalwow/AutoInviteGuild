@@ -1,0 +1,7 @@
+## Interface: 11302
+## Title: AutoInviteGuild
+## Author: Eulav
+## Version: 0.1
+## SavedVariablesPerCharacter: AutoInviteGuildSettings
+
+AutoInviteGuild.lua
