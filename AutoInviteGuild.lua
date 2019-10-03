@@ -1,6 +1,6 @@
 local addonName, addonTable = ...
 local enable = false
-local ticktime=60;
+local ticktime=150;
 local runtick=GetTime()
 AutoInviteGroup = addonTable
 
@@ -15,9 +15,9 @@ function timerproc()
     if (enable) then
 		if (runtick <= GetTime()) then
 			runtick = GetTime() + ticktime
-			for key,value in ipairs({"大脚世界频道","综合","交易","世界频道","寻求组队"}) do
+			for key,value in ipairs({"大脚世界频道","交易","世界频道","寻求组队"}) do
 				id = GetChannelName(value)
-				SendChatMessage("《Hello World》公会诚招各路IT人士，打造一个和谐，友爱，文明的公会，将于10月下旬打造一个团结高效的纯DKP团队，活动时间每周六下午1-5点，欢迎IT人士的加盟", "CHANNEL", nil, id)
+				SendChatMessage("《Hello World》公会诚招各路IT人士，打造一个和谐，友爱，文明的公会，将于10月下旬打造一个团结高效的纯DKP团队，活动时间每周六下午1-5点，欢迎IT人士的加盟,扰屏见谅", "CHANNEL", nil, id)
 			end
 			
 		end
@@ -29,7 +29,7 @@ AutoInviteGroup.autoInviteFrame = CreateFrame("Frame", "AutoInviteGroup", UIPare
 AutoInviteGroup.autoInviteFrame:RegisterEvent("PLAYER_LOGIN")
 AutoInviteGroup.autoInviteFrame:RegisterEvent("CHAT_MSG_WHISPER")
 AutoInviteGroup.autoInviteFrame:SetScript("OnUpdate", function(self, event, ...)
-	-- timerproc(arg);
+	timerproc(arg);
 end)
 AutoInviteGroup.autoInviteFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" then
