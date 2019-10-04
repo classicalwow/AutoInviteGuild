@@ -1,6 +1,7 @@
 local addonName, addonTable = ...
-local enable = false
-local ticktime=150;
+local rotenable = false
+local annoenable = false
+local ticktime=60;
 local runtick=GetTime()
 AutoInviteGroup = addonTable
 
@@ -12,12 +13,12 @@ function IsPlayerInGuild(playerName)
 end
 
 function timerproc()
-    if (enable) then
+    if (annoenable) then
 		if (runtick <= GetTime()) then
 			runtick = GetTime() + ticktime
-			for key,value in ipairs({"大脚世界频道","交易","世界频道","寻求组队"}) do
+			for key,value in ipairs({"大脚世界频道","世界频道","寻求组队","综合","交易"}) do
 				id = GetChannelName(value)
-				SendChatMessage("《Hello World》公会诚招各路IT人士，打造一个和谐，友爱，文明的公会，将于10月下旬打造一个团结高效的纯DKP团队，活动时间每周六下午1-5点，欢迎IT人士的加盟,扰屏见谅", "CHANNEL", nil, id)
+				SendChatMessage("《Hello World》公会诚招各路IT人士，打造一个和谐，友爱，文明的公会，将于10月下旬打造一个团结高效的纯DKP团队，活动时间每周六下午1-5点，欢迎IT人士及其朋友的加盟,扰屏见谅", "CHANNEL", nil, id)
 			end
 			
 		end
@@ -33,7 +34,7 @@ AutoInviteGroup.autoInviteFrame:SetScript("OnUpdate", function(self, event, ...)
 end)
 AutoInviteGroup.autoInviteFrame:SetScript("OnEvent", function(self, event, ...)
 	if event == "PLAYER_LOGIN" then
-		AutoInviteGroup:Initialize()
+		-- AutoInviteGroup:Initialize()
 	end
 
 	if event == "CHAT_MSG_WHISPER" then
@@ -43,30 +44,26 @@ AutoInviteGroup.autoInviteFrame:SetScript("OnEvent", function(self, event, ...)
 end)
 
 
-function AutoInviteGroup:Initialize()
-	if AutoInviteSettings == nil then
-		AutoInviteGroup:LoadDefaults()
-	else
-		AutoInviteGroup:ApplySavedVariables()
-	end
-end
+-- function AutoInviteGroup:Initialize()
+-- 	if AutoInviteSettings == nil then
+-- 		AutoInviteGroup:LoadDefaults()
+-- 	else
+-- 		AutoInviteGroup:ApplySavedVariables()
+-- 	end
+-- end
 
 
 
-function AutoInviteGroup:LoadDefaults()
-	enable = false
-end
 
 
 
 function AutoInviteGroup:ProcessWhisper(text, playerName)
-	if not enable then
+	if not rotenable then
 		return
 	end
 	if text == "123" then
 		canInvite = CanGuildInvite()
 		if canInvite then
-			print("can")
 			GuildInvite(playerName)
 		end
 		
@@ -79,9 +76,11 @@ function AutoInviteGroup:ProcessWhisper(text, playerName)
 end
 
 SLASH_AUTOINVITEGROUP1 = "/aig"
-SLASH_AUTOINVITEGROUP2 = "/aig help"
-SLASH_AUTOINVITEGROUP3 = "/aig enable"
-SLASH_AUTOINVITEGROUP4 = "/aig disable"
+SLASH_AUTOINVITEGROUP2 = "/aig announce enable"
+SLASH_AUTOINVITEGROUP3 = "/aig announce disable"
+SLASH_AUTOINVITEGROUP4 = "/aig robot enable"
+SLASH_AUTOINVITEGROUP5 = "/aig robot disable"
+SLASH_AUTOINVITEGROUP6 = "/aig help"
 SlashCmdList["AUTOINVITEGROUP"] = function(msg)
 	if AutoInviteGroup:StringIsNullOrEmpty(msg) then
 		AutoInviteGroup:PrintHelpInformation()
@@ -99,15 +98,28 @@ SlashCmdList["AUTOINVITEGROUP"] = function(msg)
 		AutoInviteGroup:PrintHelpInformation()
 	end
 
-	if subCommand == "enable" then
-		enable = true
-		runtick=GetTime()
-		stopit = 0
+	if subCommand == "announce" then
+		if slashCommandMsg[2] == "enable" then
+			runtick=GetTime()
+			annoenable = true
+			print("自动喊话已开启")
+		end
+		if slashCommandMsg[2] == "disable" then
+			annoenable = false
+			print("自动喊话已关闭")
+		end
 	end
+	
 
-	if subCommand == "disable" then
-		enable = false
-		stopit = 1
+	if subCommand == "robot" then
+		if slashCommandMsg[2] == "enable" then
+			rotenable = true
+			print("自动机器人已开启")
+		end
+		if slashCommandMsg[2] == "disable" then
+			rotenable = false
+			print("自动机器人已关闭")
+		end
 	end
 end
 
@@ -119,16 +131,17 @@ end
 
 function AutoInviteGroup:PrintHelpInformation()
 	print("AutoInviteGroup Help Information")
-	print("/aig, /aig help -- Displays help information for AutoInviteGroup addon.")
-	print("/aig enable -- Turns on the AutoInviteGroup functionality.")
-	print("/aig disable -- Turns off the AutoInviteGroup functionality.")
+	print("/aig, /aig help -- 帮助指令.")
+	print("/aig announce enable -- 开启自动喊话.")
+	print("/aig announce disable -- 关闭自动喊话.")
+	print("/aig robot enable -- 如果挂机不在的情况，开启机器人对话.")
+	print("/aig robot disable -- 关闭机器人对话.")
 end
 
 
 
 function AutoInviteGroup:SplitString(slashCommand, delimiter)
 	result = {}
-
 	for match in (slashCommand .. delimiter):gmatch("(.-)" .. delimiter) do
 		table.insert(result, match)
 	end
@@ -136,7 +149,4 @@ function AutoInviteGroup:SplitString(slashCommand, delimiter)
 	return result
 end
 
-print("密我邀请进公会插件加载，默认关闭，开启请输入/aig enable")
-
-
-GuildInvite("Nodejs-沙尔图拉")
+print("密我邀请进公会插件加载，默认关闭,更多帮助,开启请输入/aig,开启喊话前先确认加入了3个频道 /join 世界频道  /join 寻求组队 /join 大脚世界频道")
