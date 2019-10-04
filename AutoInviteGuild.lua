@@ -16,10 +16,13 @@ function timerproc()
     if (annoenable) then
 		if (runtick <= GetTime()) then
 			runtick = GetTime() + ticktime
-			for key,value in ipairs({"大脚世界频道","世界频道","寻求组队","综合","交易"}) do
+			local ids = {}
+			for key,value in ipairs({"大脚世界频道","世界频道","寻求组队","综合","交易","公会招募","世界防务"}) do
 				id = GetChannelName(value)
+				table.insert(ids,id)
 				SendChatMessage("《Hello World》公会诚招各路IT人士，打造一个和谐，友爱，文明的公会，将于10月下旬打造一个团结高效的纯DKP团队，活动时间每周六下午1-5点，欢迎IT人士及其朋友的加盟,扰屏见谅", "CHANNEL", nil, id)
 			end
+			print("已在"..table.concat(ids,",").."频道中喊话");
 			
 		end
     end
