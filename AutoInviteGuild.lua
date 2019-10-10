@@ -22,7 +22,7 @@ function timerproc()
 			for key,value in ipairs({"大脚世界频道","世界频道","寻求组队","综合","交易","公会招募","世界防务"}) do
 				id = GetChannelName(value)
 				table.insert(ids,id)
-				SendChatMessage("{三角}{三角}《Hello World》公会诚招各路IT精英，打造一个和谐，友爱，文明的公会，将于10月下旬打造一个团结高效的纯DKP团队，活动时间每周六下午1-5点，扰屏见谅{三角}{三角}"..count, "CHANNEL", nil, id)
+				SendChatMessage("{三角}{三角}《Hello World》公会诚招各路IT同僚，打造一个和谐，友爱，文明的公会，将于10月下旬打造一个团结高效的GKP团队，活动时间每周六,周日下午1-5点，扰屏见谅{三角}{三角}"..count, "CHANNEL", nil, id)
 			end
 			print("已在"..table.concat(ids,",").."频道中喊话");
 			
@@ -74,7 +74,7 @@ function AutoInviteGroup:ProcessWhisper(text, playerName)
 		
 	else
 		SendChatMessage("我是自动喊话机器人，Hello World公会诚招各路IT人士，励志打造一个和谐，友爱，文明的公会，组织一个进度高效的副本团队和一个能打胜战的PVP团队", "WHISPER", nil, playerName)
-		SendChatMessage("准备在10月下旬开组40人纯DKP团本，活动时间每周六下午1-5点，招最聪明的人，打最效率的魔兽！", "WHISPER", nil, playerName)
+		SendChatMessage("准备在10月下旬开组40人GKP团本，活动时间每周六下午1-5点，招最聪明的人，打最效率的魔兽！", "WHISPER", nil, playerName)
 		SendChatMessage("具体细节可以私聊Typescript,如果他在线的话,公会官网github點com/classicalwow/homepage,里面有微信群，欢迎您的加入", "WHISPER", nil, playerName)
 		SendChatMessage("在这里，您将拥有最先进的魔兽插件和辅助功能，如果您热爱魔兽，团结友爱，请先加入微信群，我再拉你们入公会", "WHISPER", nil, playerName)
 	end
